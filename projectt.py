@@ -108,7 +108,6 @@ def airline():
                   messagebox.showinfo('Flight not available','Flights going out of India avaiable.........Please enter correct boarding')
            elif e_to.get() == '':
                   messagebox.showinfo('Error empty field','Please enter your destination')           
-           
            elif price.get() == '':
                   messagebox.showinfo('Error empty field','Please enter price trip')
            else:           
@@ -117,10 +116,7 @@ def airline():
            passwd=passw,
            host='localhost',
            database='air_ticket28'
-           
-           
-         
-           )
+)
                   global cursor
                   cursor = db.cursor()
                   sql = "INSERT INTO customers(name, address , mobile , from1 , destination,date_fly,time_fly,price) values (%s,%s,%s,%s,%s,%s,%s,%s)"
