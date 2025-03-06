@@ -1,5 +1,4 @@
 # Importing required modules
-from tkinter import*
 import mysql.connector
 import tkinter.font as font
 import tkinter as tk
@@ -7,11 +6,9 @@ from tkinter import ttk
 from tkinter import messagebox
 from PIL import Image,ImageTk
 
-
 # Taking sql's password as input
 passw=input("Enter your sql's password")
 #passw="coding"
-
 
 def airline():
        # Create GUI
@@ -31,9 +28,7 @@ def airline():
        label = Label(root,image=img)
        label.place(x=0, y=0)
 
-
        # Create fonts
-       
        fnt1 = ("Italic", 45, "bold")
        fnt2 = ("Italic", 25, "bold")
        fnt3 = ("Italic", 20, "bold")
@@ -52,22 +47,17 @@ def airline():
        passeneger = StringVar()
        price = StringVar()
 
-
-
        # Create DataBase
        def creat_database():
               db = mysql.connector.connect(
                 user='root',
                 passwd=passw,
                 host='localhost'
-
               )
               cursor = db.cursor()
               cursor.execute('CREATE DATABASE IF NOT EXISTS air_ticket28')
               cursor.close()
               db.close()
-
-
        creat_database()
 
        # Create Table
@@ -85,11 +75,9 @@ def airline():
               db.close()
        creat_table()
 
-
        # Create function to check the field it is empty or not,if not empty start to add the information in the table in database
        def get_info_new_frame():
            
-
            if name.get()== '' :
                messagebox.showinfo('Error empty field','Please enter your name')
            elif address.get() == '':
@@ -112,22 +100,18 @@ def airline():
                   messagebox.showinfo('Error empty field','Please enter price trip')
            else:           
                   db = mysql.connector.connect(
-           user='root',
-           passwd=passw,
-           host='localhost',
-           database='air_ticket28'
-)
+                  user='root',
+                  passwd=passw,
+                  host='localhost',
+                  database='air_ticket28'
+                  )
                   global cursor
                   cursor = db.cursor()
                   sql = "INSERT INTO customers(name, address , mobile , from1 , destination,date_fly,time_fly,price) values (%s,%s,%s,%s,%s,%s,%s,%s)"
-                  
-
-                  val = (name.get(), address.get(),mobile.get(),e_from.get(),e_to.get(),date_fly.get(),time_fly.get(),price.get())
-                  
-                  
+                  val = (name.get(), address.get(),mobile.get(),e_from.get(),e_to.get(),date_fly.get(),time_fly.get(),price.get())    
                   cursor.execute(sql, val)
                   db.commit()
-                  
+                
                   print(cursor.rowcount, 'record(s) inserted')
                   cursor.close()
                   db.close()
@@ -142,12 +126,8 @@ def airline():
                   price.set('')
                   messagebox.showinfo('Add Passeneger','Passenger added successfully')
                   
-                      
-
-
        #Create new GUI    
        def show_data():
-           
            window2= tk.Toplevel()
            w = 1200
            h = 500
@@ -187,7 +167,6 @@ def airline():
            my_tree.column('Time',anchor=W,width=120,minwidth=25)
            my_tree.column('Price',anchor=W,width=120,minwidth=25)
 
-           #my_tree.heading('#0',text='Label',anchor=W)
            my_tree.heading('Name',text='Name',anchor=W)
            my_tree.heading('Address',text='Address',anchor=W)
            my_tree.heading('Mobile',text='Mobile',anchor=W)
@@ -206,8 +185,8 @@ def airline():
                   for row in result:
                          my_tree.insert('',index='end',iid=i,text='Parent',value=(row[1:]))
                          pass
-           #print(row)
-                         i += 1      
+                         i += 1    
+                         
            #Create function to search about one passneger by his name
            def search_single():
                   cursor = db.cursor()
@@ -220,10 +199,12 @@ def airline():
                                 print(row[1:2])
                                 my_tree.insert('',index='end',iid=i,text='Parent',value=(row[1:]))
                                 name.delete(0, 'end')
+                                
            #Create function to delete all passenger from treeview
            def delete_all():
                   for row in my_tree.get_children():
-                         my_tree.delete(row)                         
+                         my_tree.delete(row)         
+                         
            #Create function modfiy the price ticket by the price and the name
            def modify_price_passenger():
                   cursor = db.cursor()
@@ -240,11 +221,11 @@ def airline():
                          btn5.after(1000,window2.destroy)
                          messagebox.showinfo('Update Date field','Succesfully Updated Date')
                          show_data()
-                         
                          delete_all()
                   
            check_all_passenger()             
            my_tree.pack(pady=20)
+              
            #Create function to delete teh passngere from  teh DateBase                 
            def del_system():
                   cursor = db.cursor()
@@ -257,11 +238,10 @@ def airline():
                          val = (name.get(),)
                          cursor.execute(sql, val)
                          db.commit()
-                         print(cursor.rowcount, "record(s) deleted")
-           
-                  
+                         print(cursor.rowcount, "record(s) deleted")    
                   cursor.close()
                   db.close()           
+                  
            #Create entry to search about one passenger by name   
            name= Entry(window2,font=fnt5,textvariable=passeneger)
            name.place(x=205,y=300)
@@ -306,11 +286,6 @@ def airline():
            but.place(x = 175,y =420 ) 
            #Destroy second GUI
            window2.mainloop()
-
-           
-           
-
-
           
        #Create label display the app name
        button2 = tk.Label(root, text = "AIRLINE RESERVATION SYSTEM",bg="#2176C1", fg='white',width = 50, height = 3 ,relief=tk.RAISED,font=fnt2)
@@ -385,9 +360,6 @@ def airline():
                selected = my_tree.focus()
                # Grab record values
                values = my_tree.item(selected, 'values')
-
-               #temp_label.config(text=values[0])
-
                # output to entry boxes
                e_time.insert(0, values[0])
                e_from.insert(0, values[1])
@@ -458,8 +430,6 @@ def airline():
                for row in reversed(rows):
                        my_tree.move(row, my_tree.parent(row), my_tree.index(row)+1)
 
-
-
        #Buttons
        move_up = Button(root,text='Move Up',font=fnt4,bg="#2176C1", fg='white',command=up)
        move_up.place(x=720, y=575)
@@ -502,6 +472,7 @@ def main():
     B9.place(x=10,y=510)
         
     rootx.mainloop()
+       
 def passwor():
     
     failure_max = 3
@@ -531,7 +502,6 @@ def passwor():
         else:
             rootx.title('Try again. Attempt %i/%i' % (sum(failures)+1, failure_max))
         
-
     rootx = tk.Tk()
     rootx.geometry('300x160')
     rootx.title('Enter your information')
@@ -545,9 +515,6 @@ def passwor():
     b = tk.Button(passx, borderwidth=4, text="Login", width=10, pady=8, command=check_password)
     b.pack(side=tk.BOTTOM)
     password.bind('<Return>', enter)
-
-
     user.focus_set()
-
     passx.mainloop()
 passwor()
